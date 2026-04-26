@@ -1,22 +1,40 @@
-package Speedly_CPIT252;
 
 import java.util.ArrayList;
 
 public class Menu {
-    private ArrayList<MenuItem> items = new ArrayList<>();
+    private static Menu instance;
 
-    public void addItem(MenuItem item) {
-        items.add(item);
+    private ArrayList<Product> products;
+
+    private Menu() {
+        products = new ArrayList<>();
+
+        products.add(ProductFactory.createProduct("Cheese Pizza"));
+        products.add(ProductFactory.createProduct("Veggie Pizza"));
+        products.add(ProductFactory.createProduct("Beef Burger"));
+        products.add(ProductFactory.createProduct("Chicken Burger"));
+        products.add(ProductFactory.createProduct("Apple Juice"));
+        products.add(ProductFactory.createProduct("Orange Juice"));
+        products.add(ProductFactory.createProduct("Water"));
+        products.add(ProductFactory.createProduct("Pepsi"));
+        products.add(ProductFactory.createProduct("7UP"));
+    }
+
+    public static Menu getInstance() {
+        if (instance == null) {
+            instance = new Menu();
+        }
+        return instance;
     }
 
     public void displayMenu() {
-        for (int i = 0; i < items.size(); i++) {
-            System.out.println((i + 1) + ". ");
-            items.get(i).displayItem();
-        }
+       for (Product product : products) {
+           System.out.println(product.getName() + "  -  "+ product.getPrice());
+       }
     }
 
-    public MenuItem getItem(int index) {
-        return items.get(index);
-    }
+    /*public List<Product> getProducts() {
+        return products;
+    }*/
+
 }
