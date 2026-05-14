@@ -11,16 +11,10 @@ public class ProductFactory {
                 return new Pizza("Veggie Pizza", 27);
 
             case "beef burger":
-                return new Burger("Beef Burger", 25);
+                return new Burger("Beef Burger", 22);
 
             case "chicken burger":
                 return new Burger("Chicken Burger", 20);
-
-            case "french fries":
-                return new Appetizer("French Fries", 10);
-
-            case "mozzarella sticks":
-                return new Appetizer("Mozzarella Sticks", 17);
 
             case "apple juice":
                 return new Drink("Apple Juice", 8);

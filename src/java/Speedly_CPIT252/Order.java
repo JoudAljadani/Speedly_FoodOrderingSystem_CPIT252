@@ -1,17 +1,14 @@
-package Speedly_CPIT252;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Order {
     private List<OrderItem> items;
-    private String status;
+    private OrderState state;
     private double totalPrice;
     private PaymentStrategy paymentStrategy;
 
     private Order(Builder builder) {
         this.items = builder.items;
-        this.status = "Pending";
+        this.state = new CreatedState();
         this.totalPrice = builder.calculateTotal();
     }
 
@@ -20,11 +17,21 @@ public class Order {
     }
 
     public String getStatus() {
-        return status;
+        return state.getStatusName();
     }
 
     public double getTotalPrice() {
         return totalPrice;
+    }
+
+    public void setState(OrderState state) {
+        if (state == null) {
+            throw new IllegalArgumentException("State cannot be null");
+        }
+        this.state = state;    }
+
+    public void nextState() {
+        state.next(this);
     }
 
     public void setPaymentStrategy(PaymentStrategy paymentStrategy) {
@@ -39,8 +46,12 @@ public class Order {
             throw new IllegalStateException("Please choose a payment method first");
         }
 
+        if (!getStatus().equals("Created")) {
+            throw new IllegalStateException("Order can only be paid from Created status");
+        }
+
         paymentStrategy.pay(totalPrice);
-        status = "Paid";
+        nextState();
     }
 
     public static class Builder {
@@ -51,7 +62,7 @@ public class Order {
                 throw new IllegalArgumentException("Product cannot be null");
             }
 
-            if (quantity <= 0) {
+            if (quantity < 1) {
                 throw new IllegalArgumentException("Quantity must be greater than 0");
             }
 
@@ -73,7 +84,6 @@ public class Order {
             if (items.isEmpty()) {
                 throw new IllegalArgumentException("Order must have at least one item");
             }
-
             return new Order(this);
         }
     }

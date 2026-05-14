@@ -13,6 +13,8 @@ public class Menu {
         products.add(ProductFactory.createProduct("Veggie Pizza"));
         products.add(ProductFactory.createProduct("Beef Burger"));
         products.add(ProductFactory.createProduct("Chicken Burger"));
+        products.add(ProductFactory.createProduct("French Fries"));
+        products.add(ProductFactory.createProduct("Mozzarella Sticks"));
         products.add(ProductFactory.createProduct("Apple Juice"));
         products.add(ProductFactory.createProduct("Orange Juice"));
         products.add(ProductFactory.createProduct("Water"));
@@ -28,13 +30,17 @@ public class Menu {
     }
 
     public void displayMenu() {
-       for (Product product : products) {
-           System.out.println(product.getName() + "  -  "+ product.getPrice());
+       for (int i = 0; i < products.size(); i++) {
+           Product product = products.get(i);
+           System.out.println((i + 1) + ". " + product.getName() + " - " + product.getPrice() + " SAR");
        }
     }
 
-    /*public List<Product> getProducts() {
-        return products;
-    }*/
+    public Product getProduct(int index) {
+        if (index >= 0 && index < products.size()) {
+            return products.get(index);
+        }
+        return null;
+    }
 
 }
