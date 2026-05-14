@@ -9,5 +9,6 @@ public class Employee extends User {
         if (order == null) {
             throw new IllegalArgumentException("Order cannot be null");
         }
+        order.nextState();
     }
 }
