@@ -1,24 +1,20 @@
 package Speedly_CPIT252;
 
 public class OrderItem {
-    private MenuItem item;
+    private Product product;
     private int quantity;
 
-    public OrderItem(MenuItem item, int quantity) {
-        this.item = item;
+    public OrderItem(Product product, int quantity) {
+        this.product = product;
         this.quantity = quantity;
     }
 
-    public double getTotalPrice() {
-        return item.getPrice() * quantity;
+    public double getSubtotal() {
+        return product.getPrice() * quantity;
     }
 
-    public void displayOrderItem() {
-        System.out.println(item.getName() + " x" + quantity + " = " + getTotalPrice() + " SAR");
-    }
-
-    public MenuItem getItem() {
-        return item;
+    public Product getProduct() {
+        return product;
     }
 
     public int getQuantity() {
