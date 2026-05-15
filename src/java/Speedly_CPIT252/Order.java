@@ -1,9 +1,12 @@
-package Speedly_CPIT252;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
+
+    private Customer customer;
+
+    private static int counter = 1;
+    private int orderId;
 
     private List<OrderItem> items;
     private OrderState state;
@@ -12,10 +15,20 @@ public class Order {
 
     private List<OrderObserver> observers = new ArrayList<>();
 
-    private Order(Builder builder) {
-        this.items = builder.items;
+    Order(Customer customer, List<OrderItem> items, double totalPrice) {
+        this.orderId = counter++;
+        this.customer = customer;
+        this.items = items;
+        this.totalPrice = totalPrice;
         this.state = new CreatedState();
-        this.totalPrice = builder.calculateTotal();
+    }
+
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public Customer getCustomer() {
+        return customer;
     }
 
     public List<OrderItem> getItems() {
@@ -34,13 +47,9 @@ public class Order {
         observers.add(observer);
     }
 
-    public void removeObserver(OrderObserver observer) {
-        observers.remove(observer);
-    }
-
     private void notifyObservers() {
         for (OrderObserver observer : observers) {
-            observer.update(this);
+            observer.update();
         }
     }
 
@@ -61,6 +70,7 @@ public class Order {
         if (paymentStrategy == null) {
             throw new IllegalArgumentException("Payment strategy cannot be null");
         }
+
         this.paymentStrategy = paymentStrategy;
     }
 
@@ -75,40 +85,5 @@ public class Order {
 
         paymentStrategy.pay(totalPrice);
         nextState();
-    }
-
-    public static class Builder {
-        private List<OrderItem> items = new ArrayList<>();
-
-        public Builder addItem(Product product, int quantity) {
-            if (product == null) {
-                throw new IllegalArgumentException("Product cannot be null");
-            }
-
-            if (quantity < 1) {
-                throw new IllegalArgumentException("Quantity must be greater than 0");
-            }
-
-            items.add(new OrderItem(product, quantity));
-            return this;
-        }
-
-        private double calculateTotal() {
-            double total = 0;
-
-            for (OrderItem item : items) {
-                total += item.getSubtotal();
-            }
-
-            return total;
-        }
-
-        public Order build() {
-            if (items.isEmpty()) {
-                throw new IllegalArgumentException("Order must have at least one item");
-            }
-
-            return new Order(this);
-        }
     }
 }

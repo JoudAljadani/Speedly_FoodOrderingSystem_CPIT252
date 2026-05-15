@@ -1,9 +1,7 @@
-package Speedly_CPIT252;
-
 public class Employee extends User {
 
-    public Employee(String name, String phoneNumber, String email) {
-        super(name, phoneNumber, email);
+    public Employee(String name, String phoneNumber, String email, String password) {
+        super(name, phoneNumber, email, password);
     }
 
     public void updateOrderStatus(Order order) {

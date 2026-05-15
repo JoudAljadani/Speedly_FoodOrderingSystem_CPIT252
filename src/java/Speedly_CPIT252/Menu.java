@@ -1,4 +1,3 @@
-package Speedly_CPIT252;
 
 import java.util.ArrayList;
 
@@ -31,17 +30,20 @@ public class Menu {
     }
 
     public void displayMenu() {
-       for (int i = 0; i < products.size(); i++) {
-           Product product = products.get(i);
-           System.out.println((i + 1) + ". " + product.getName() + " - " + product.getPrice() + " SAR");
-       }
+        for (int i = 0; i < products.size(); i++) {
+            Product product = products.get(i);
+            System.out.println((i + 1) + ". "
+                    + product.getCategory()
+                    + " - " + product.getName()
+                    + " - " + product.getPrice() + " SAR");
+        }
     }
 
     public Product getProduct(int index) {
-        if (index >= 0 && index < products.size()) {
-            return products.get(index);
+        if (index < 0 || index >= products.size()) {
+            throw new IllegalArgumentException("Product number is not available in the menu");
         }
-        return null;
+        return products.get(index);
     }
 
 }

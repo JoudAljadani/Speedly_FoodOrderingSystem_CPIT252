@@ -1,4 +1,3 @@
-package Speedly_CPIT252;
 
 public class ReadyForPickupState implements OrderState {
 

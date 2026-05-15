@@ -1,8 +1,11 @@
-package Speedly_CPIT252;
 
 public class ProductFactory {
 
     public static Product createProduct(String name) {
+
+        if (name == null) {
+            throw new IllegalArgumentException("Product name cannot be null");
+        }
 
         switch (name.toLowerCase()) {
 

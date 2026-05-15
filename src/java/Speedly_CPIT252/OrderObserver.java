@@ -1,6 +1,5 @@
-package Speedly_CPIT252;
+public abstract class OrderObserver {
+    protected Order order;
 
-public interface OrderObserver {
-    void update(Order order);
-
+    public abstract void update();
 }
