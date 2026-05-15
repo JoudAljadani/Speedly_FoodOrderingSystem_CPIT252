@@ -1,5 +1,7 @@
+package Speedly_CPIT252;
 
 public class OrderItem {
+
     private Product product;
     private int quantity;
 

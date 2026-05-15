@@ -1,3 +1,4 @@
+package Speedly_CPIT252;
 
 public class Customer extends User {
 

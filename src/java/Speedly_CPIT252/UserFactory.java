@@ -1,3 +1,5 @@
+package Speedly_CPIT252;
+
 public class UserFactory {
 
     public static User createUser(String type, String name, String phoneNumber, String email) {

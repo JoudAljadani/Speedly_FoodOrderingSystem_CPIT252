@@ -1,3 +1,5 @@
+package Speedly_CPIT252;
+
 public class Burger extends Product {
 
     public Burger(String name, double price) {

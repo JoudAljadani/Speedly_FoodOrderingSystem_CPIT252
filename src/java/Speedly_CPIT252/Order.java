@@ -1,10 +1,16 @@
-import java.util.*;
+package Speedly_CPIT252;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Order {
+
     private List<OrderItem> items;
     private OrderState state;
     private double totalPrice;
     private PaymentStrategy paymentStrategy;
+
+    private List<OrderObserver> observers = new ArrayList<>();
 
     private Order(Builder builder) {
         this.items = builder.items;
@@ -24,11 +30,28 @@ public class Order {
         return totalPrice;
     }
 
+    public void addObserver(OrderObserver observer) {
+        observers.add(observer);
+    }
+
+    public void removeObserver(OrderObserver observer) {
+        observers.remove(observer);
+    }
+
+    private void notifyObservers() {
+        for (OrderObserver observer : observers) {
+            observer.update(this);
+        }
+    }
+
     public void setState(OrderState state) {
         if (state == null) {
             throw new IllegalArgumentException("State cannot be null");
         }
-        this.state = state;    }
+
+        this.state = state;
+        notifyObservers();
+    }
 
     public void nextState() {
         state.next(this);
@@ -84,6 +107,7 @@ public class Order {
             if (items.isEmpty()) {
                 throw new IllegalArgumentException("Order must have at least one item");
             }
+
             return new Order(this);
         }
     }

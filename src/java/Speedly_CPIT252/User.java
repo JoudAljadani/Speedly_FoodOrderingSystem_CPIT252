@@ -1,3 +1,4 @@
+package Speedly_CPIT252;
 
 public abstract class User {
     private static int counter = 1;

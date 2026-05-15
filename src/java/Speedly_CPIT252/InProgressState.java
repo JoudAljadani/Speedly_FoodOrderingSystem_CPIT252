@@ -1,3 +1,5 @@
+package Speedly_CPIT252;
+
 public class InProgressState implements OrderState {
 
     @Override

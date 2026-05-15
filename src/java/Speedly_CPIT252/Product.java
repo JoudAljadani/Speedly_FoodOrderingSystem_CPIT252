@@ -1,4 +1,6 @@
-    public abstract class Product {
+package Speedly_CPIT252;
+
+public abstract class Product {
 
         private String name;
         private double price;
