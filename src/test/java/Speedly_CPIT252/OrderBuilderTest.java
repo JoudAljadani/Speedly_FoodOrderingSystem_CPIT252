@@ -1,63 +1,69 @@
-import org.junit.jupiter.api.Test;
+package Speedly_CPIT252;
 
+import Speedly_CPIT252.OrderManagement.*;
+import Speedly_CPIT252.Entity.*;
+import Speedly_CPIT252.Factory.*;
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class OrderBuilderTest {
 
     @Test
     void shouldBuildOrderWithCorrectTotal() {
-        Customer customer = new Customer("Jana", "0512345678",
-                "jana@gmail.com", "1234");
 
+        //create customer object
+        User customer = UserFactory.createUser("customer", "Jana",
+                "0512345678", "Joud@gmail.com", "1234");
+
+        //create products using ProductFactory
         Product pizza = ProductFactory.createProduct("Cheese Pizza");
         Product water = ProductFactory.createProduct("Water");
 
-        Order order = new OrderBuilder()
-                .setCustomer(customer)
-                .addItem(pizza, 2)
-                .addItem(water, 1)
-                .build();
+        //build an order
+        Order order = new OrderBuilder().setCustomer((Customer) customer).addItem(pizza, 2)
+                .addItem(water, 1).build();
 
-        assertEquals(customer, order.getCustomer());
-        assertEquals(2, order.getItems().size());
-        assertEquals(53.0, order.getTotalPrice());
-        assertEquals("Created", order.getStatus());
+        assertEquals(customer, order.getCustomer()); //check that customer was assigned correctly
+        assertEquals(2, order.getItems().size()); //check number of items added to the order
+        assertEquals(53.0, order.getTotalPrice()); //check calculated total price
+        assertEquals("Created", order.getStatus()); //check initial order state
     }
 
     @Test
     void orderWithoutCustomerShouldThrowException() {
+
+        //create product
         Product water = ProductFactory.createProduct("Water");
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            new OrderBuilder()
-                    .addItem(water, 1)
-                    .build();
-        });
+        //verifying that building order without customer throws exception
+        assertThrows(IllegalArgumentException.class, () -> {new OrderBuilder()
+                .addItem(water, 1).build(); });
     }
 
     @Test
     void orderWithoutItemsShouldThrowException() {
-        Customer customer = new Customer("Jana", "0512345678",
-                "jana@gmail.com", "1234");
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            new OrderBuilder()
-                    .setCustomer(customer)
-                    .build();
-        });
+        //create customer object
+        User customer = UserFactory.createUser("customer", "Jana",
+                "0512345678", "Joud@gmail.com", "1234");
+
+        //verifying that building empty order throws exception
+        assertThrows(IllegalArgumentException.class, () -> {new OrderBuilder()
+                .setCustomer((Customer)customer).build(); });
     }
 
     @Test
     void invalidQuantityShouldThrowException() {
-        Customer customer = new Customer("Jana", "0512345678",
-                "jana@gmail.com", "1234");
 
+        //create customer object
+        User customer = UserFactory.createUser("customer", "Jana",
+                "0512345678", "Joud@gmail.com", "1234");
+
+        //create product
         Product water = ProductFactory.createProduct("Water");
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            new OrderBuilder()
-                    .setCustomer(customer)
-                    .addItem(water, 0);
-        });
+        //verifying that invalid quantity throws exception
+        assertThrows(IllegalArgumentException.class, () -> {new OrderBuilder()
+                .setCustomer((Customer)customer).addItem(water, 0); });
     }
 }
